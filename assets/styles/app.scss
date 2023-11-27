@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+$primary: #3412E6;
+
+body {
+    background-color: whitesmoke;
+}
+
+nav {
+    background-color: $primary;
+}
