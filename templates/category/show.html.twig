@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Série par catégorie{{ category.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="media">
+		<div class="media-body">
+			<p>film ou série de la catégorie :
+				{{ category.name }}</p>
+			{% for program in programs %}
+
+				<h1 class="mt-0"> {{program.id}} - {{ program.title }}</h1>
+				<p>{{ program.synopsis }}</p>
+                <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+			{% endfor %}
+		</div>
+	</div>
+
+	<a href="{{ path('category_index') }}">
+		Retour à la liste des categories
+	</a>
+{% endblock %}
