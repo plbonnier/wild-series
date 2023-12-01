@@ -25,7 +25,7 @@ class Season
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'seasons')]
+    #[ORM\ManyToOne(inversedBy: 'season')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Program $program = null;
 
