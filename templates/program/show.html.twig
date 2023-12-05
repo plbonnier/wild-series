@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Série #{{ program.id }}
+{% block title %}Acteur #{{ program.id }}
 {% endblock %}
 
 {% block body %}
@@ -19,10 +19,21 @@
 					</li>
 				{% endfor %}
 			</ul>
+			<strong>Acteurs :</strong>
+			<ul>
+				{% for actor in program.actors %}
+					<li>
+						<a href="{{ path("actor_actor", { id: actor.id}) }}">{{actor.name}}</a>
+					</li>
+				{% else %}
+					<li>Aucun acteur pour cette série</li>
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
 
 	<a href="{{ path('program_index') }}">
 		Retour à la liste des programmes
 	</a>
+	{{ include('program/_delete_form.html.twig') }}
 {% endblock %}

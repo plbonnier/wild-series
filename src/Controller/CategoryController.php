@@ -41,6 +41,7 @@ class CategoryController extends AbstractController
             // And redirect to a route that display the result
             $entityManager->persist($category);
             $entityManager->flush();
+            $this->addFlash('success', 'The new category has been created');
             // Redirect to categories list
             return $this->redirectToRoute('category_index');
         }

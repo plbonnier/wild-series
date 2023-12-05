@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+	<div class="media">
+		<div class="media-body">
+			<h1 class="mt-0">{{ actor.name }}</h1>
+			<p>Listes des séries dans lequel il joue :</p>
+			<ul>
+				{% for program in actor.programs %}
+					<li>
+
+						<a href="{{ path("program_show", { id: program.id}) }}">{{program.title}}</a>
+					</li>
+				{% else %}
+					<li>Aucune série pour cette acteur</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<a href="{{ path('actor_index') }}">
+		Retour à la liste des acteurs
+	</a>
+	{# {{ include('program/_delete_form.html.twig') }} #}
+{% endblock %}
