@@ -15,8 +15,9 @@
 			<ul>
 				{% for season in program.season %}
 					<li>
-						<a href="{{ path("program_season_show", { program: program.id, season: season.id}) }}">{{season.number}}</a>
+						<a href="{{ path("program_season_show", { slug: program.slug, season: season.id}) }}">{{season.number}}</a>
 					</li>
+					<p>Durée: {{ programDuration2 }}</p>
 				{% endfor %}
 			</ul>
 			<strong>Acteurs :</strong>

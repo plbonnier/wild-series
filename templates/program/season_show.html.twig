@@ -11,6 +11,7 @@
             <h1 class="mt-0">{{ program.title }} - Saison {{ season.number }}</h1>
             <p>{{ season.description }}</p>
             <p>Année de sortie : {{ season.year }}</p>
+            <p>Durée: {{ programDuration2 }}</p>
         </div>
     </div>
 
@@ -18,13 +19,13 @@
     <ul>
         {% for episode in season.episodes %}
             <li>
-            <a href="{{ path("program_episode_show", { programId: program.id, seasonId: season.id, episodeId: episode.id}) }}"><strong>Épisode {{ episode.number }} - {{ episode.title }}</strong></a>
+            <a href="{{ path("program_episode_show", { slug: program.slug, seasonId: season.id, episodeId: episode.id}) }}"><strong>Épisode {{ episode.number }} - {{ episode.title }}</strong></a>
                 {{ episode.synopsis }}
             </li>
         {% endfor %}
     </ul>
 
-    <a href="{{ path('program_show', {'id': program.id}) }}">
+    <a href="{{ path('program_show', {slug: program.slug}) }}">
         Retour à la série
     </a>
 {% endblock %}
