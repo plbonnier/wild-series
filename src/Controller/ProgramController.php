@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
@@ -19,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mime\Email;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -35,7 +37,7 @@ class ProgramController extends AbstractController
     }
 
     #[ROUTE('/new', name: 'new')]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, MailerInterface $mailer, ProgramRepository $programRepository): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -46,8 +48,18 @@ class ProgramController extends AbstractController
             $program->setSlug($slug);
             $entityManager->persist($program);
             $entityManager->flush();
+            // $programRepository->save($program, true);
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('your_email@example.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
 
+            $mailer->send($email);
+
+            
             $this->addFlash('success', 'The new program has been created');
+
 
             return $this->redirectToRoute('program_index');
         }
@@ -66,7 +78,7 @@ class ProgramController extends AbstractController
         // }
         return $this->render('program/show.html.twig', [
             'program' => $program,
-            'slug'=>$program->getSlug(),
+            'slug' => $program->getSlug(),
             'programDuration2' => $programDuration2->calculate($program)
         ]);
     }
@@ -76,7 +88,7 @@ class ProgramController extends AbstractController
     {
         return $this->render('program/season_show.html.twig', [
             'program' => $program,
-            'slug'=>$program->getSlug(),
+            'slug' => $program->getSlug(),
             'season' => $season,
             'programDuration2' => $programDuration2->calculate($program)
         ]);
@@ -91,7 +103,7 @@ class ProgramController extends AbstractController
     ) {
         return $this->render('program/episode_show.html.twig', [
             'program' => $program,
-            'slug'=>$program->getSlug(),
+            'slug' => $program->getSlug(),
             'season' => $season,
             'episode' => $episode,
             'programDuration' => $programDuration->calculate($program)
@@ -101,7 +113,7 @@ class ProgramController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $program->getId(), $request->request->get('_token'))) {
             $entityManager->remove($program);
             $entityManager->flush();
             $this->addFlash('danger', 'The program has been deleted');
