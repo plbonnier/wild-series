@@ -1,21 +1,48 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ program.title }} - Saison {{ season.number }} - Episode {{ episode.number }}
+	{{ program.title }}
+	- Saison
+	{{ season.number }}
+	- Episode
+	{{ episode.number }}
 {% endblock %}
 
 {% block body %}
-    <div class="media">
-        <img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
-        <div class="media-body">
-            <h1 class="mt-0">{{ program.title }} - Saison {{ season.number }} - Episode {{ episode.number }}</h1>
-            <p>{{ episode.title }}</p>
-            <p>Synopsis : {{ episode.synopsis }}</p>
-            <p>Durée: {{ programDuration }} minutes</p>
-        </div>
-    </div>
+	<div class="media">
+		<img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
+		<div class="media-body">
+			<h1 class="mt-0">{{ program.title }}
+				- Saison
+				{{ season.number }}
+				- Episode
+				{{ episode.number }}</h1>
+			<p>{{ episode.title }}</p>
+			<p>Synopsis :
+				{{ episode.synopsis }}</p>
+			<p>Durée:
+				{{ programDuration }}
+				minutes</p>
+		</div>
+	</div>
 
-        <a href="{{ path('program_show', {slug: program.slug}) }}">
-        Retour à la série
-    </a>
+{# <div>
+<h3>commentaire</h3>
+{% for comment in comments %}
+<p>{{ comment.comment }}</p>
+<p>{{ comment.author }}
+</div> #}
+	<div>
+		{% if app.user %}
+			<a href="{{ path('app_comment_new') }}">
+				Ajouter un commentaire</a>
+		{% else %}
+			<a href="{{ path('app_login') }}">
+				Se connecter</a>
+		{% endif %}
+	</div>
+
+	<a href="{{ path('program_show', {slug: program.slug}) }}">
+		Retour à la série
+	</a>
 {% endblock %}

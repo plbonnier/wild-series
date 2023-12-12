@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Entity\Comment;
 use App\Form\ProgramType;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -94,19 +95,21 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/season/{seasonId}/episode/{episodeId}', name: 'episode_show')]
+    #[Route('/{slug}/season/{seasonId}/episode/{episodeId}', name: 'episode_show')] 
     public function showEpisode(
         #[MapEntity(mapping: ['slug' => 'slug'])] Program $program,
         #[MapEntity(mapping: ['seasonId' => 'id'])] Season $season,
         #[MapEntity(mapping: ['episodeId' => 'id'])] Episode $episode,
-        ProgramDuration $programDuration
+        ProgramDuration $programDuration,
+        // Comment $comment
     ) {
         return $this->render('program/episode_show.html.twig', [
             'program' => $program,
             'slug' => $program->getSlug(),
             'season' => $season,
             'episode' => $episode,
-            'programDuration' => $programDuration->calculate($program)
+            'programDuration' => $programDuration->calculate($program),
+            // 'comment' => $comment
         ]);
     }
 
