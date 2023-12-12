@@ -26,12 +26,14 @@
 		</div>
 	</div>
 
-{# <div>
+<div>
 <h3>commentaire</h3>
-{% for comment in comments %}
+{% for comment in episode.comments %}
 <p>{{ comment.comment }}</p>
-<p>{{ comment.author }}
-</div> #}
+<p>Note : {{ comment.rate }}
+{# <p>{{ comment.author }}</p> #}
+{% endfor %}
+</div>
 	<div>
 		{% if app.user %}
 			<a href="{{ path('app_comment_new') }}">
