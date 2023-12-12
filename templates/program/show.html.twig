@@ -5,7 +5,9 @@
 
 {% block body %}
 	<div class="media">
-		<img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+		<img
+		src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
+		{# <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster"> #}
 		<div class="media-body">
 			<h1 class="mt-0">{{ program.title }}</h1>
 			<p>{{ program.synopsis }}</p>
@@ -17,7 +19,8 @@
 					<li>
 						<a href="{{ path("program_season_show", { slug: program.slug, season: season.id}) }}">{{season.number}}</a>
 					</li>
-					<p>Durée: {{ programDuration2 }}</p>
+					<p>Durée:
+						{{ programDuration2 }}</p>
 				{% endfor %}
 			</ul>
 			<strong>Acteurs :</strong>
@@ -26,6 +29,7 @@
 					<li>
 						<a href="{{ path("actor_actor", { id: actor.id}) }}">{{actor.name}}</a>
 					</li>
+					<li><img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}"></li>
 				{% else %}
 					<li>Aucun acteur pour cette série</li>
 				{% endfor %}

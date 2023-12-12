@@ -13,8 +13,9 @@
 				{{ program.title }}
 				- Catégorie :
 				{{ program.category.name }}</h2>
-
-			<img src="{{ program.poster }}" class=" img-fluid rounded mx-auto d-block" alt="program poster"/>
+			<img
+			src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
+			{# <img src="{{ program.poster }}" class=" img-fluid rounded mx-auto d-block" alt="program poster"/> #}
 			<p>{{ program.synopsis }}</p>
 			<p>
 				Année de création :

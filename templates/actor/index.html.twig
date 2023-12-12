@@ -26,6 +26,7 @@
 						<a href="{{path("actor_actor",{id:actor.id})}}">{{actor.name}}✅</a>
 					</h3>
 				</li>
+				<li><img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}"></li>
 			</ul>
             {% endfor %}
 		</div>
