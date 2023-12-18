@@ -40,8 +40,20 @@ class UserFixtures extends Fixture
         $admin->setPassword($hashedPassword);
         $manager->persist($admin);
 
-        // Sauvegarde des 2 nouveaux utilisateurs :
+        // Création d’un utilisateur de type “administrateur”
+        $contributor = new User();
+        $contributor->setEmail('pl@monsite.com');
+        $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $contributor,
+            'plpassword'
+        );
+        $contributor->setPassword($hashedPassword);
+        $manager->persist($contributor);
 
+        $this->addReference('user_' . $contributor->getEmail(), $contributor);
+
+        // Sauvegarde des 3 nouveaux utilisateurs :
         $manager->flush();
     }
 }

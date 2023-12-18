@@ -25,13 +25,13 @@
 				{{ program.country }}</p>
 			{# Lien vers la fiche de la série : #}
 			<a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>
-		</div>
-	{% else %}
-		Aucune série trouvée.
-	{% endfor %}
 
-	<a href="{{ path('app_index') }}">
-		Retour à l'accueil
-	</a>
+		{% else %}
+			Aucune série trouvée.
+		{% endfor %}
 
-{% endblock %}
+		<a href="{{ path('app_index') }}">
+			Retour à l'accueil
+		</a>
+
+	{% endblock %}

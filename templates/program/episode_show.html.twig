@@ -31,7 +31,15 @@
 {% for comment in episode.comments %}
 <p>{{ comment.comment }}</p>
 <p>Note : {{ comment.rate }}
-{# <p>{{ comment.author }}</p> #}
+<p>{{ comment.author.email }}</p>
+	</a>
+		{% if is_granted("ROLE_ADMIN") %}
+		<a href="{{ path('comment_edit', { 'id': comment.id} ) }}">Éditer</a>
+		        {{ include('comment/_delete_form.html.twig') }}
+	{%endif%}
+	{% if is_granted("{{ comment.author }}") %}
+	<a href="{{ path('comment_edit', { 'id': comment.id} ) }}">Éditer</a>
+	{%endif%}
 {% endfor %}
 </div>
 	<div>

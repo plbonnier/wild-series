@@ -1,31 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ program.title }} - Saison {{ season.number }}
+	{{ program.title }}
+	- Saison
+	{{ season.number }}
 {% endblock %}
 
 {% block body %}
-    <div class="media">
-        <img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
-        <div class="media-body">
-            <h1 class="mt-0">{{ program.title }} - Saison {{ season.number }}</h1>
-            <p>{{ season.description }}</p>
-            <p>Année de sortie : {{ season.year }}</p>
-            <p>Durée: {{ programDuration2 }}</p>
-        </div>
-    </div>
+	<div class="media">
+		<img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
+		<div class="media-body">
+			<h1 class="mt-0">{{ program.title }}
+				- Saison
+				{{ season.number }}</h1>
+			<p>{{ season.description }}</p>
+			<p>Année de sortie :
+				{{ season.year }}</p>
+			<p>Durée:
+				{{ programDuration2 }}</p>
+		</div>
+	</div>
 
-    <h2>Épisodes</h2>
-    <ul>
-        {% for episode in season.episodes %}
-            <li>
-            <a href="{{ path("program_episode_show", { slug: program.slug, seasonId: season.id, episodeId: episode.id}) }}"><strong>Épisode {{ episode.number }} - {{ episode.title }}</strong></a>
-                {{ episode.synopsis }}
-            </li>
-        {% endfor %}
-    </ul>
+	<h2>Épisodes</h2>
+	<ul>
+		{% for episode in season.episodes %}
+			<li>
+				<a href="{{ path("program_episode_show", { slug: program.slug, seasonId: season.id, episodeId: episode.id}) }}">
+					<strong>Épisode
+						{{ episode.number }}
+						-
+						{{ episode.title }}</strong>
+				</a>
+				{{ episode.synopsis }}
+			</li>
+		{% endfor %}
+	</ul>
 
-    <a href="{{ path('program_show', {slug: program.slug}) }}">
-        Retour à la série
-    </a>
+	<a href="{{ path('program_show', {slug: program.slug}) }}">
+		Retour à la série
+	</a>
+
+		{% if is_granted("ROLE_ADMIN") %}
+		<a href="{{ path('program_edit', { 'slug': program.slug} ) }}">Éditer</a>
+	</div>
+	{%endif%}
 {% endblock %}

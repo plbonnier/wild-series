@@ -40,4 +40,42 @@ class CommentController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/comment/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser() !== $comment->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the author can delete the program!');
+        }
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($comment);
+            $entityManager->flush();
+            $this->addFlash('danger', 'The comment has been deleted');
+        }
+
+        return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
+    // #[Route('/', name: 'app_home')]
+    public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser() !== $comment->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+        }
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('comment/edit.html.twig', [
+            'comment' => $comment,
+            'form' => $form,
+        ]);
+}
 }
