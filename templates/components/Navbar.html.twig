@@ -1,0 +1,14 @@
+<div {{ attributes }}>
+	<div class="dropdown">
+		<a role="button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			Categories
+		</a>
+		<ul class="dropdown-menu">
+			{% for category in this.categories %}
+				<li>            
+					<a class="dropdown-item" href="#">{{ category.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

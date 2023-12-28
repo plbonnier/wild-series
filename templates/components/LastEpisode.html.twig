@@ -1,0 +1,26 @@
+<div{{ attributes }}>
+<footer>
+{% block sidebar %}
+<aside>
+<h3>Les 3 derniers épisodes sortis</h3>
+<ul>
+{% for lastEpisode in this.lastEpisodes %}
+				<li>            
+					<h4>{{ lastEpisode.title }}</h4>
+				</li>
+				<li>            
+					<p>{{ lastEpisode.season.program.title }}</p>
+				</li>
+				<li>            
+					<p>{{ lastEpisode.season.number }}</p>
+				</li>
+				<li>            
+					<p>{{ lastEpisode.number }}</p>
+				</li>
+
+			{% endfor %}
+</ul>
+</aside>
+{% endblock %}
+</footer>
+</div>
