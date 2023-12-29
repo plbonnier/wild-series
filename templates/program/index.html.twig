@@ -33,6 +33,7 @@
 			{# Lien vers la fiche de la série : #}
 			<a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>
 
+			{{ component('WatchList', { program: program }) }}
 		{% else %}
 			Aucune série trouvée.
 		{% endfor %}
